@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Foto Alumni UNIKU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .gallery img {
+            width: 200px;
+            height: auto;
+            cursor: pointer;
+            opacity: 0; /* Awalnya tersembunyi untuk efek fade-in */
+            transition: opacity 1s ease-in;
+        }
+        .gallery img.loaded {
+            opacity: 1; /* Menampilkan gambar setelah dimuat */
+        }
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.8); 
+            justify-content: center; 
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .caption {
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Galeri Foto Alumni UNIKU</h1>
+<div class="gallery">
+    <div>
+        <img src="barbie alumni.jpg" alt="Foto Alumni 1" class="fade-in">
+        <div class="caption">Foto Alumni 1</div>
+    </div>
+    <div>
+        <img src="barbie alumni 2.jpg" alt="Foto Alumni 2" class="fade-in">
+        <div class="caption">Foto Alumni 2</div>
+    </div>
+    <div>
+        <img src="sofia alumni.jpg" alt="Foto Alumni 3" class="fade-in">
+        <div class="caption">Foto Alumni 3</div>
+    </div>
+    <!-- Tambahkan lebih banyak gambar sesuai kebutuhan -->
+</div>
+
+<div class="modal" id="modal">
+    <span class="close" id="close">&times;</span>
+    <img id="modal-img" src="" alt="">
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Efek fade-in untuk semua gambar
+        $('.fade-in').each(function(index) {
+            $(this).delay(300 * index).queue(function(next) {
+                $(this).addClass('loaded');
+                next();
+            });
+        });
+
+        // Menampilkan gambar dalam modal saat diklik
+        $('.gallery img').on('click', function() {
+            var imgSrc = $(this).attr('src');
+            $('#modal-img').attr('src', imgSrc);
+            $('#modal').fadeIn();
+        });
+
+        // Menutup modal saat tombol close atau area luar gambar diklik
+        $('#close, #modal').on('click', function() {
+            $('#modal').fadeOut();
+        });
+
+        // Mencegah penutupan modal saat gambar diklik
+        $('#modal-img').on('click', function(event) {
+            event.stopPropagation();
+        });
+    });
+</script>
+
+</body>
+</html>
